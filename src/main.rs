@@ -6,6 +6,7 @@ use models::Model;
 mod events;
 mod lines;
 mod tree;
+mod sky;
 
 fn main() {
     nannou::app(model).event(event).run()
@@ -53,6 +54,13 @@ fn view(app: &App, model: &Model, frame: Frame) {
                 .start(line.start)
                 .end(line.end)
                 .color(rgba(0.0, 0.0, 0.0, line.value));
+        });
+
+        tree.branches.iter().for_each(|branch| {
+            draw.ellipse()
+                .xy(*branch)
+                .radius(1.0)
+                .color(RED);
         })
     });
 

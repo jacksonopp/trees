@@ -36,7 +36,7 @@ pub struct Model {
 }
 
 const NUM_FLOOR_LINES: usize = 8;
-const NUM_TREES: usize = 8;
+const NUM_TREES: usize = 1;
 const PADDING: f32 = 20.0;
 
 impl Model {
@@ -49,7 +49,7 @@ impl Model {
             let rid = random_range(0, NUM_FLOOR_LINES - 1);
             let floor_end = floor.lines[rid].end.y;
             let start = random_range(rect.left() + PADDING, rect.right() - PADDING);
-            let height = random_range(rect.h() - 700.0, rect.h() - 300.0);
+            let height = random_range(rect.h() - 800.0, rect.h() - 700.0);
             let tree = Tree::new(start, floor_end, height);
             trees.push(tree);
         }
