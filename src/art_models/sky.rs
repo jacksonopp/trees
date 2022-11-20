@@ -15,14 +15,16 @@ impl SkyLine {
         let i_start = (rect.left() + 20.0) as isize;
         let i_end = (rect.right() - 20.0) as isize;
 
-        for i in (i_start..i_end) {
+        for i in i_start..i_end {
             let x = (i as f32) / frequency;
-            let y = x.sin() * amplitude;
-            // let y = x.sin()
+            let mut y = x.sin() * amplitude;
+            y += random_range(-1.0, 1.0);
+
             points.push(vec2(i as f32, y_start + y));
         }
 
-        let value = map_range(y_start, rect.bottom(), rect.top(), 0.0, 1.0);
+        let mut value = map_range(y_start, rect.bottom(), rect.top(), 0.3, 2.0);
+        value = value.max(1.0);
 
         Self { points, value }
     }
@@ -54,7 +56,7 @@ impl DrawModel for Sky {
             draw.polyline()
                 .weight(1.0)
                 .points(points)
-                .color(hsla(27.0 / 360.0, 1.0, 0.5, l.value));
+                .color(hsla(193.0 / 360.0, 1.0, 0.5, l.value));
         })
     }
 }

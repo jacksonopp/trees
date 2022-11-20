@@ -33,7 +33,7 @@ impl Model {
         let floor_end = floor.lines[NUM_FLOOR_LINES - 1].end.y;
 
         // let sky = Sky::new(rect.bottom() + PADDING, &rect);
-        let sky = Sky::new(floor_end + 30.0, 10, &rect);
+        let sky = Sky::new(floor_end + 30.0, 5, &rect);
         
         Model { window: w, floor, trees, sky }
     }

@@ -41,11 +41,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
     draw.background().color(named::CORNSILK);
 
+    model.sky.draw(&draw);
+
     model.floor.draw(&draw);
 
     model.trees.iter().for_each(|tree| tree.draw(&draw));
-
-    model.sky.draw(&draw);
 
     draw.ellipse()
         .x_y(0.0, 0.0)
