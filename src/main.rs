@@ -43,14 +43,12 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
     model.sky.draw(&draw);
 
+    model.sun.draw(&draw);
+    
     model.floor.draw(&draw);
 
     model.trees.iter().for_each(|tree| tree.draw(&draw));
 
-    draw.ellipse()
-        .x_y(0.0, 0.0)
-        .color(named::GREEN)
-        .radius(20.0);
 
     draw.to_frame(app, &frame).unwrap();
 }

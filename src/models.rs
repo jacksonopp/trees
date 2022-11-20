@@ -1,6 +1,7 @@
 use nannou::prelude::*;
 
 use crate::art_models::sky::Sky;
+use crate::art_models::sun::Sun;
 use crate::art_models::{tree::Tree, floor::Floor};
 
 
@@ -9,6 +10,7 @@ pub struct Model {
     pub floor: Floor,
     pub trees: Vec<Tree>,
     pub sky: Sky,
+    pub sun: Sun,
 }
 
 const NUM_FLOOR_LINES: usize = 8;
@@ -32,9 +34,11 @@ impl Model {
 
         let floor_end = floor.lines[NUM_FLOOR_LINES - 1].end.y;
 
-        // let sky = Sky::new(rect.bottom() + PADDING, &rect);
         let sky = Sky::new(floor_end + 30.0, 5, &rect);
-        
-        Model { window: w, floor, trees, sky }
+
+        let color = hsla(31.0 / 360.0, 1.0, 0.5, 1.0);
+        let sun = Sun::new(50.0, &rect);
+
+        Model { window: w, floor, trees, sky, sun }
     }
 }
