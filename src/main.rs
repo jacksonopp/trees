@@ -1,12 +1,12 @@
+use art_models::common::DrawModel;
 use nannou::{color::named, prelude::*};
 
 mod models;
 use models::Model;
 
+mod art_models;
 mod events;
 mod lines;
-mod sky;
-mod tree;
 
 fn main() {
     nannou::app(model).event(event).run()
@@ -41,21 +41,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
     draw.background().color(named::CORNSILK);
 
-    model.floor.lines.iter().for_each(|line| {
-        draw_line(&draw, line);
-    });
+    model.floor.draw(&draw);
 
-    model.trees.iter().for_each(|tree| {
-        tree.trunk.lines.iter().for_each(|line| {
-            draw_line(&draw, line);
-        });
+    model.trees.iter().for_each(|tree| tree.draw(&draw));
 
-        tree.branches.iter().for_each(|branch| {
-            branch.lines.iter().for_each(|line| {
-                draw_line(&draw, line);
-            })
-        })
-    });
+    model.sky.draw(&draw);
 
     draw.ellipse()
         .x_y(0.0, 0.0)
@@ -63,11 +53,4 @@ fn view(app: &App, model: &Model, frame: Frame) {
         .radius(20.0);
 
     draw.to_frame(app, &frame).unwrap();
-}
-
-fn draw_line(draw: &Draw, line: &lines::solid::SolidLine) {
-    draw.line()
-        .start(line.start)
-        .end(line.end)
-        .color(rgba(0.0, 0.0, 0.0, line.value));
 }

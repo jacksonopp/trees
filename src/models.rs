@@ -1,38 +1,14 @@
 use nannou::prelude::*;
 
-use crate::{lines::{common::Line, solid::SolidLine}, tree::Tree};
+use crate::art_models::sky::Sky;
+use crate::art_models::{tree::Tree, floor::Floor};
 
-
-#[derive(Debug, Clone)]
-pub struct Floor {
-    pub lines: Vec<SolidLine>,
-}
-
-impl Floor {
-    pub fn new(num: u8, rect: &Rect) -> Self {
-        let mut lines = vec![];
-
-        let padding = 20.0;
-
-        for i in 0..num {
-            let y1 = rect.bottom() + padding + ((i as f32 + random::<f32>()) * (i as f32 / 1.15));
-            let y2 = rect.bottom() + padding + ((i as f32 + random::<f32>()) * (i as f32 / 1.15));
-            let left = rect.left() + padding;
-            let right = rect.right() - padding;
-            let value = map_range(i as f32 + random::<f32>(), 0 as f32, num as f32, 0.5, 1.0);
-
-            let line = SolidLine::line(left, y1, right, y2, 2.0, value);
-            lines.push(line);
-        }
-
-        Self { lines }
-    }
-}
 
 pub struct Model {
     pub window: WindowId,
     pub floor: Floor,
     pub trees: Vec<Tree>,
+    pub sky: Sky,
 }
 
 const NUM_FLOOR_LINES: usize = 8;
@@ -53,7 +29,12 @@ impl Model {
             let tree = Tree::new(start, floor_end, height, 15.0);
             trees.push(tree);
         }
+
+        let floor_end = floor.lines[NUM_FLOOR_LINES - 1].end.y;
+
+        // let sky = Sky::new(rect.bottom() + PADDING, &rect);
+        let sky = Sky::new(floor_end + 30.0, 10, &rect);
         
-        Model { window: w, floor, trees }
+        Model { window: w, floor, trees, sky }
     }
 }

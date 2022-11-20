@@ -1,4 +1,4 @@
-use crate::lines::{common::Line, solid::SolidLine};
+use crate::{lines::{common::Line, solid::SolidLine}, art_models::common::DrawModel};
 use nannou::prelude::*;
 
 #[derive(Debug)]
@@ -37,8 +37,6 @@ impl Line for MultiLine {
 
         let density = weight.floor() as u32 * 3;
 
-        println!("density {density}");
-
         for _ in 0..density {
             let start = get_pos_in_circle(&start_cap.pos, start_cap.radius);
             let end = get_pos_in_circle(&end_cap.pos, end_cap.radius);
@@ -61,6 +59,14 @@ impl Line for MultiLine {
             value,
             lines,
         }
+    }
+}
+
+impl DrawModel for MultiLine {
+    fn draw(&self, draw: &Draw) {
+        self.lines.iter().for_each(|line| {
+            line.draw(draw);
+        });
     }
 }
 

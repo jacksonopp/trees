@@ -1,5 +1,5 @@
 use nannou::prelude::*;
-use crate::lines::common::Line;
+use crate::{lines::common::Line, art_models::common::DrawModel};
 
 #[derive(Debug, Clone)]
 pub struct SolidLine {
@@ -17,5 +17,15 @@ impl Line for SolidLine {
             weight: weight,
             value: value,
         }
+    }
+}
+
+impl DrawModel for SolidLine {
+    fn draw(&self, draw: &Draw) {
+        draw.line()
+            .start(self.start)
+            .end(self.end)
+            .weight(self.weight)
+            .color(rgba(0.0, 0.0, 0.0, self.value));
     }
 }

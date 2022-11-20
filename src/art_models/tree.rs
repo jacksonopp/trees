@@ -3,6 +3,8 @@ use nannou::prelude::*;
 
 use crate::lines::{multi::MultiLine, common::Line};
 
+use super::common::DrawModel;
+
 #[derive(Debug)]
 pub struct Tree {
     pub trunk: MultiLine,
@@ -16,6 +18,18 @@ impl Tree {
         let branches = create_branches(&trunk, max_height, x, start_y, branch_len);
 
         Self { trunk, branches }
+    }
+}
+
+impl DrawModel for Tree {
+    fn draw(&self, draw: &Draw) {
+        self.trunk.lines.iter().for_each(|line| {
+            line.draw(draw);
+        });
+
+        self.branches.iter().for_each(|branch| {
+            branch.draw(draw);
+        })
     }
 }
 
