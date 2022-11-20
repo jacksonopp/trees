@@ -1885,14 +1885,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "squares"
-version = "0.1.0"
-dependencies = [
- "nannou",
- "rand_distr",
-]
-
-[[package]]
 name = "stb_truetype"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1965,6 +1957,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8d82e1a7758622a465f8cee077614c73484dac5b836c02ff6a40d5d1010324d7"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "trees"
+version = "0.1.0"
+dependencies = [
+ "nannou",
+ "rand_distr",
 ]
 
 [[package]]
