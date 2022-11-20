@@ -6,27 +6,44 @@ use crate::lines::{multi::MultiLine, common::Line};
 #[derive(Debug)]
 pub struct Tree {
     pub trunk: MultiLine,
-    pub branches: Vec<Vec2>
+    pub branches: Vec<MultiLine>
 }
 
 impl Tree {
-    pub fn new(x: f32, start_y: f32, max_height: f32) -> Self {
-        let trunk = create_branches(start_y, max_height, x);
+    pub fn new(x: f32, start_y: f32, max_height: f32, branch_len: f32) -> Self {
+        let trunk = create_trunk(start_y, max_height, x);
 
-        let mut branches = vec![];
-
-        let mut half_tree_height = (trunk.end.pos.y - trunk.start.pos.y) / 2.0;
-        half_tree_height += random_range(-10.0, 10.0);
-
-        for i in ((half_tree_height as i32)..(max_height as i32)).step_by(7) {
-            branches.push(vec2(x, start_y + i as f32));
-        }
+        let branches = create_branches(&trunk, max_height, x, start_y, branch_len);
 
         Self { trunk, branches }
     }
 }
 
-fn create_branches(start_y: f32, max_height: f32, x: f32) -> MultiLine {
+fn create_branches(trunk: &MultiLine, max_height: f32, x: f32, start_y: f32, branch_len: f32) -> Vec<MultiLine> {
+    let mut branches = vec![];
+    let mut half_tree_height = (trunk.end.pos.y - trunk.start.pos.y) / 2.0;
+    half_tree_height += random_range(-10.0, 10.0);
+
+    for i in ((half_tree_height as i32)..(max_height as i32)).step_by(7) {
+        let mut branch_start_y = start_y + i as f32;
+        let mut branch_end_y = branch_start_y - 3.0;
+
+        branch_start_y += random_range(-1.0, 1.0);
+        branch_end_y += random_range(-1.0, 1.0);
+
+        let left_branch_len = branch_len + random_range(-2.0, 2.0);
+        let right_branch_len = branch_len + random_range(-2.0, 2.0);
+
+        let left_branch = MultiLine::line(x, branch_start_y, x - left_branch_len, branch_end_y, 1.0, 1.0);
+        branches.push(left_branch);
+        let right_branch = MultiLine::line(x, branch_start_y, x + right_branch_len, branch_end_y, 1.0, 1.0);
+        branches.push(right_branch);
+    }
+
+    branches
+}
+
+fn create_trunk(start_y: f32, max_height: f32, x: f32) -> MultiLine {
     let y2 = start_y + max_height;
     let value = random_range(0.6, 1.0);
     let weight = random_range(2.0, 6.0);

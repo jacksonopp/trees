@@ -5,8 +5,8 @@ use models::Model;
 
 mod events;
 mod lines;
-mod tree;
 mod sky;
+mod tree;
 
 fn main() {
     nannou::app(model).event(event).run()
@@ -42,25 +42,18 @@ fn view(app: &App, model: &Model, frame: Frame) {
     draw.background().color(named::CORNSILK);
 
     model.floor.lines.iter().for_each(|line| {
-        draw.line()
-            .start(line.start)
-            .end(line.end)
-            .color(Rgba::new(0.0, 0.0, 0.0, line.value));
+        draw_line(&draw, line);
     });
 
     model.trees.iter().for_each(|tree| {
         tree.trunk.lines.iter().for_each(|line| {
-            draw.line()
-                .start(line.start)
-                .end(line.end)
-                .color(rgba(0.0, 0.0, 0.0, line.value));
+            draw_line(&draw, line);
         });
 
         tree.branches.iter().for_each(|branch| {
-            draw.ellipse()
-                .xy(*branch)
-                .radius(1.0)
-                .color(RED);
+            branch.lines.iter().for_each(|line| {
+                draw_line(&draw, line);
+            })
         })
     });
 
@@ -70,4 +63,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
         .radius(20.0);
 
     draw.to_frame(app, &frame).unwrap();
+}
+
+fn draw_line(draw: &Draw, line: &lines::solid::SolidLine) {
+    draw.line()
+        .start(line.start)
+        .end(line.end)
+        .color(rgba(0.0, 0.0, 0.0, line.value));
 }
